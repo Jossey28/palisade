@@ -1,27 +1,90 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Palisade</title>
-    <link rel="stylesheet" href="../style.css" />
-  </head>
-  <body>
-    <nav>
-      <ul class="navbar">
-        <div>
-            <li>SCOREBOARD</li>
-            <li>INJECTS</li>
-            <li>ANNOUNCEMENTS</li>
-            <li>SERVICES</li>
-        </div>
-        <div>
-            <li>TEAMXX: LOGOUT</li>
-        </div>
-      </ul>
-    </nav>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <style>
+        .services-grid {
+            display: grid;
+            gap: 4px;
+        }
 
+        .grid-header,
+        .team-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: #111;
+            color: #eee;
+        }
+
+        .status-cell {
+            position: relative;
+            height: 100px;
+            background-image: url("{% static 'images/service/my_face.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .status-cell::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.55;
+        }
+
+        .status-cell.up::after {
+            background: green;
+        }
+
+        .status-cell.down::after {
+            background: red;
+        }
+
+        .status-cell.unknown::after {
+            background: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="navbar">
+            <div>
+                <li><a href="% url 'dashboard' %}">SCOREBOARD</a></li>
+                <li><a href="% url 'dashboard' %}">INJECTS</a></li>
+                <li><a href="% url 'dashboard' %}">ANNOUNCEMENTS</a></li>
+                <li><a href="% url 'services' %}">SERVICES</a></li>
+            </div>
+        </ul>
+    </nav>
     <div class="feed">
+        <div class="services-grid" style="grid-template-columns: 150px repeat({{ service_types|length }}, 100px)">
+            <div class="grid-header"></div>
+            {% for st in service_types %}
+            <div class="grid-header">{{ st }}</div>
+            {% endfor %}
+
+            {% for row in grid %}
+            <div class="team-label">{{ row.team }}</div>
+            {% for status in row.statuses %}
+            {% if status == True %}
+            <div class="status-cell up"></div>
+            {% elif status == False %}
+            <div class="status-cell down"></div>
+            {% else %}
+            <div class="status-cell unknown"></div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+
+        <!-- <div class="feed">
         <div class="services-wrapper standard-dashboard-wrapper">
             <div class="dashboard-header">
                 <h1>Services</h1>
@@ -78,11 +141,12 @@
                 </table>
             </div>
         </div>
-    </div>
-  </body>
+    </div> -->
+</body>
+
 </html>
 
-<script>
+<!-- <script>
     let services = document.getElementById("services");
 
     function useWords() {
@@ -116,4 +180,4 @@
         }
     }
     useAlex()
-</script>
+</script> -->

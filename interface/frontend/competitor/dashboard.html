@@ -4,19 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Palisade</title>
-    <link rel="stylesheet" href="../style.css" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
     <nav>
       <ul class="navbar">
         <div>
-          <li>SCOREBOARD</li>
-          <li>INJECTS</li>
-          <li>ANNOUNCEMENTS</li>
-          <li>SERVICES</li>
+          <li><a href="% url 'dashboard' %}">SCOREBOARD</a></li>
+          <li><a href="% url 'dashboard' %}">INJECTS</a></li>
+          <li><a href="% url 'dashboard' %}">ANNOUNCEMENTS</a></li>
+          <li><a href="% url 'services' %}">SERVICES</a></li>
         </div>
         <div>
-          <li>TEAMXX: LOGOUT</li>
+          <li>{{ team.name|upper }}: <a href="{% url 'logout' %}">LOGOUT</a></li>
         </div>
       </ul>
     </nav>
@@ -33,18 +34,20 @@
                 <th>Title</th>
                 <th>Published</th>
               </tr>
+              {% for announcement in announcements %}
               <tr>
+                <td>{{ announcement.title }}</td>
+                <td>{{ announcement.published_at|date:"m/d H:i" }} UTC</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="2">No announcements yet.</td>
+              </tr>
+              {% endfor %}
+              <!-- <tr>
                 <td>The Competition Has Started</td>
                 <td>11/22 20:00 UTC</td>
-              </tr>
-              <tr>
-                <td>Inject Wave #1 Has Occured</td>
-                <td>11/22 21:00 UTC</td>
-              </tr>
-              <tr>
-                <td>Inject Wave #2 Has Occured</td>
-                <td>11/22 22:00 UTC</td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>

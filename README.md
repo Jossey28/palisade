@@ -48,3 +48,32 @@ The Infra Admin owns the infrastructure, and provisions and distributes Organize
 ### 3. Auto-Pwn (Autonomous Red Teamer)
 
 I do not have further details here at the moment.
+
+## Setup
+
+1. Download it
+```bash
+git clone https://github.com/alex-cantor/palisade.git && cd palisade
+```
+
+2. Create the PostgreSQL DB
+- Windows
+```powershell
+
+winget install --id PostgreSQL.PostgreSQL.17 --exact
+psql -U postgres
+```
+- Linux
+```bash
+sudo -u postgres psql
+```
+```sql
+CREATE DATABASE ccdc;
+CREATE USER ccdc_admin WITH PASSWORD 'CyberSecure123!';
+ALTER ROLE ccdc_admin SET client_encoding TO 'utf8';
+GRANT ALL PRIVILEGES ON DATABASE ccdc TO ccdc_admin;
+GRANT ALL ON SCHEMA public TO ccdc_admin;
+GRANT CREATE, USAGE ON SCHEMA public TO ccdc_admin;
+ALTER SCHEMA public OWNER TO ccdc_admin;
+exit
+```
