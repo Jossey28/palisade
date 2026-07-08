@@ -1,0 +1,23 @@
+<!-- interface/frontend/admin/base_site.html -->
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'style.css' %}" />
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Palisade Administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}
+<nav>
+  <ul class="navbar">
+    <li><a href="{% url 'admin:competitions_competition_changelist' %}">COMPETITIONS</a></li>
+    <li><a href="{% url 'admin:teams_team_changelist' %}">TEAMS</a></li>
+    <li><a href="{% url 'admin:announcements_announcement_changelist' %}">ANNOUNCEMENTS</a></li>
+    <li><a href="{% url 'admin:injects_inject_changelist' %}">INJECTS</a></li>
+  </ul>
+</nav>
+{% endblock %}

@@ -11,13 +11,14 @@
     <nav>
       <ul class="navbar">
         <div>
-          <li><a href="% url 'dashboard' %}">SCOREBOARD</a></li>
-          <li><a href="% url 'dashboard' %}">INJECTS</a></li>
-          <li><a href="% url 'dashboard' %}">ANNOUNCEMENTS</a></li>
-          <li><a href="% url 'services' %}">SERVICES</a></li>
+          <li><a href="{% url 'dashboard' %}">SCOREBOARD</a></li>
+          <li><a href="{% url 'dashboard' %}">INJECTS</a></li>
+          <li><a href="{% url 'dashboard' %}">ANNOUNCEMENTS</a></li>
+          <li><a href="{% url 'services' %}">SERVICES</a></li>
         </div>
         <div>
-          <li>{{ team.name|upper }}: <a href="{% url 'logout' %}">LOGOUT</a></li>
+          <li><a href="{% url 'logout' %}">{{ team.name }} Profile</a></li>
+          <li><a href="{% url 'logout' %}">LOGOUT</a></li>
         </div>
       </ul>
     </nav>

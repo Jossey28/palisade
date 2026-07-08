@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "features.announcements",
+    "features.competitions",
     "features.injects",
     "features.network",
     "features.teams",
