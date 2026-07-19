@@ -69,11 +69,14 @@ sudo -u postgres psql
 ```
 ```sql
 CREATE DATABASE ccdc;
-CREATE USER ccdc_admin WITH PASSWORD 'CyberSecure123!';
+CREATE USER ccdc_admin WITH PASSWORD 'your_pass';
 ALTER ROLE ccdc_admin SET client_encoding TO 'utf8';
 GRANT ALL PRIVILEGES ON DATABASE ccdc TO ccdc_admin;
 GRANT ALL ON SCHEMA public TO ccdc_admin;
 GRANT CREATE, USAGE ON SCHEMA public TO ccdc_admin;
 ALTER SCHEMA public OWNER TO ccdc_admin;
+\c ccdc
+ALTER SCHEMA public OWNER TO ccdc_admin;
+GRANT ALL PRIVILEGES ON SCHEMA public TO ccdc_admin;
 exit
 ```

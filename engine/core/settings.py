@@ -1,12 +1,26 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = BASE_DIR.parent
+
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = 'django-insecure-y4up6%_nei6%75af34^bi3$&u9ja^6+*3o8l51i_cbaxg(%k4m'
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
+PROXMOX = {
+  "host": os.getenv("PROXMOX_HOST"),
+  "user": os.getenv("PROXMOX_USER"),
+  "token_name": os.getenv("PROXMOX_TOKEN_NAME"),
+  "token_value": os.getenv("PROXMOX_TOKEN_VALUE"),
+  "verify_ssl": os.getenv("PROXMOX_VERIFY_SSL", "false").lower() == "true",
+  "node": os.getenv("PROXMOX_NODE", "pve"),
+  "bridge": os.getenv("PROXMOX_BRIDGE", "vmbr1"),
+}
 
 # Application definition
 

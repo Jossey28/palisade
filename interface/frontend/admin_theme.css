@@ -1,0 +1,121 @@
+/* Restore link behavior — style.css's `a { all: unset }` breaks Django admin's UI */
+#header a,
+#content a,
+#nav-sidebar a,
+.module a,
+.object-tools a,
+.submit-row a,
+.paginator a,
+.breadcrumbs a,
+#user-tools a {
+  color: #e21833;
+  text-decoration: none;
+  cursor: pointer;
+}
+#content a:hover, .module a:hover, #nav-sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Header — direct override beats Django's dark-mode variable cascade */
+#header,
+html[data-theme="dark"] #header,
+html[data-theme="light"] #header {
+  background: #e21833 !important;
+  color: #fff !important;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+#site-name a, #site-name a:link, #site-name a:visited {
+  color: #ffd200 !important;
+}
+#user-tools a {
+  color: #fff !important;
+}
+#user-tools a:hover {
+  color: #ffd200 !important;
+}
+
+/* Nav links — scoped class, no collision with style.css's .navbar */
+#nav-global {
+  display: flex;
+  align-items: center;
+}
+#nav-global .admin-nav {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0 0 0 30px;
+  padding: 0;
+}
+#nav-global .admin-nav li a {
+  font-weight: 700;
+  color: #fff !important;
+  letter-spacing: .02em;
+  font-size: 13px;
+  white-space: nowrap;
+}
+#nav-global .admin-nav li a:hover {
+  text-decoration: underline;
+}
+
+/* Breadcrumbs + page title contrast */
+.breadcrumbs {
+  background: #a01226 !important;
+  color: #fff !important;
+}
+.breadcrumbs a {
+  color: #fff !important;
+}
+#content h1, #content-title {
+  color: #1a1a1a !important;
+}
+
+/* App-list modules as white cards */
+#content .module {
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: rgba(149,157,165,.2) 0 8px 24px;
+  border: none;
+  margin-bottom: 20px;
+}
+#content .module h2,
+#content .module caption {
+  background: #e21833 !important;
+  color: #fff !important;
+  padding: 10px 17px;
+  font-size: 16px;
+}
+#content .module table {
+  width: 100%;
+  border-collapse: collapse;
+}
+#content .module table th,
+#content .module table td {
+  padding: 8px 17px;
+}
+
+/* Changelist/result tables — gold accent from dashboard */
+#changelist table thead th,
+.results table thead th {
+  background: #ffd200 !important;
+}
+#changelist table tbody tr,
+.results table tbody tr {
+  background: #f8de74 !important;
+}
+#changelist table tbody tr:nth-child(even),
+.results table tbody tr:nth-child(even) {
+  background: #f7e9af !important;
+}
+
+/* Buttons */
+.button, input[type=submit], input[type=button], .submit-row input {
+  background: #e21833 !important;
+  color: #fff !important;
+  border-radius: 3px;
+  border: none;
+  padding: 8px 15px;
+}
+.button:hover, input[type=submit]:hover {
+  background: #a01226 !important;
+}

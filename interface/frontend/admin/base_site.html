@@ -1,10 +1,10 @@
 <!-- interface/frontend/admin/base_site.html -->
 {% extends "admin/base.html" %}
 {% load static %}
-
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'style.css' %}" />
+<link rel="stylesheet" href="{% static 'admin_theme.css' %}" />
 {% endblock %}
 
 {% block branding %}
@@ -13,7 +13,7 @@
 
 {% block nav-global %}
 <nav>
-  <ul class="navbar">
+  <ul class="admin-nav">
     <li><a href="{% url 'admin:competitions_competition_changelist' %}">COMPETITIONS</a></li>
     <li><a href="{% url 'admin:teams_team_changelist' %}">TEAMS</a></li>
     <li><a href="{% url 'admin:announcements_announcement_changelist' %}">ANNOUNCEMENTS</a></li>
