@@ -51,32 +51,59 @@ I do not have further details here at the moment.
 
 ## Setup
 
-1. Download it
+> Note: these instructions were written for Windows but it can be ran on LInux (in fact, Linux will be the primary OS it is meant for--I will write separate Linux instructions shortly)
+
+### 1. Download it
 ```bash
 git clone https://github.com/alex-cantor/palisade.git && cd palisade
 ```
 
-2. Create the PostgreSQL DB
-- Windows
-```powershell
+### 2. Create the PostgreSQL DB
 
-winget install --id PostgreSQL.PostgreSQL.17 --exact
-psql -U postgres
+1. Spin up the PostgreSQL container (in PowerShell)
+```powershell
+docker run -d --name palisade-db -p 5432:5432 -v palisade_pgdata:/var/lib/postgresql/data -e POSTGRES_PASSWORD=postgres postgres:17
 ```
-- Linux
-```bash
-sudo -u postgres psql
+
+2. Create the DB
+```powershell
+docker exec -it palisade-db psql -U postgres
 ```
-```sql
+
+3. Configure user perms
+```powershell
 CREATE DATABASE ccdc;
 CREATE USER ccdc_admin WITH PASSWORD 'your_pass';
+
 ALTER ROLE ccdc_admin SET client_encoding TO 'utf8';
 GRANT ALL PRIVILEGES ON DATABASE ccdc TO ccdc_admin;
-GRANT ALL ON SCHEMA public TO ccdc_admin;
-GRANT CREATE, USAGE ON SCHEMA public TO ccdc_admin;
-ALTER SCHEMA public OWNER TO ccdc_admin;
+
 \c ccdc
 ALTER SCHEMA public OWNER TO ccdc_admin;
 GRANT ALL PRIVILEGES ON SCHEMA public TO ccdc_admin;
-exit
+GRANT CREATE, USAGE ON SCHEMA public TO ccdc_admin;
+
+\q
+```
+
+### 3. Django Environment Config
+
+0. Navigate to the engine
+```powershell
+cd engine
+```
+
+1. Set up the Virtual Environment
+```powershell
+python -m venv venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements
+```
+
+2. In your `.env` and throughout the app, ensure the proper settings are configured (TODO: make sure everything pulls from the `.env`)
+
+3. Apply migrations and run the server
+```powershell
+python manage.py migrate
+python manage.py runserver
 ```

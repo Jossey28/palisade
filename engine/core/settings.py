@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ccdc',
         'USER': 'ccdc_admin',
-        'PASSWORD': 'CyberSecure123!',
+        'PASSWORD': 'your_pass',
         'HOST': 'localhost',
         'PORT': '5432',
     }
