@@ -102,8 +102,10 @@ pip install -r requirements
 
 2. In your `.env` and throughout the app, ensure the proper settings are configured (TODO: make sure everything pulls from the `.env`)
 
-3. Apply migrations and run the server
+
+3. Apply migrations, add your first organizer, and run the server
 ```powershell
 python manage.py migrate
+python manage.py create_organizer
 python manage.py runserver
 ```
