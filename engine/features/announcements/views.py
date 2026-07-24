@@ -10,7 +10,7 @@ def dashboard(request):
   try:
     team = Team.objects.get(user=request.user)
   except Team.DoesNotExist:
-    return redirect("admin:index")
+    return redirect("organizer:competition_list")
   
   announcements = Announcement.objects.order_by("-published_at")[:5]
   injects = list(Inject.objects.order_by("start_time"))

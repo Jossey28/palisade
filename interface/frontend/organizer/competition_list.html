@@ -1,0 +1,31 @@
+{% extends "organizer/base.html" %}
+{% block title %}Competitions{% endblock %}
+{% block content %}
+
+<div class="org-page-header">
+  <h1>Competitions</h1>
+  <a class="org-button" href="{% url 'organizer:competition_create' %}">+ New Competition</a>
+</div>
+
+{% if competitions %}
+<div class="org-tile-grid">
+  {% for competition in competitions %}
+  <a class="org-tile" href="{% url 'organizer:competition_detail' competition.pk %}">
+    <div class="org-tile-status org-status-{{ competition.status }}">{{ competition.get_status_display }}</div>
+    <h2>{{ competition.name }}</h2>
+    <div class="org-tile-meta">
+      <span class="org-chip">{{ competition.get_difficulty_display }}</span>
+      <span class="org-chip">{{ competition.get_industry_display }}</span>
+    </div>
+    <div class="org-tile-dates">{{ competition.start_time|date:"M j, Y" }} &ndash; {{ competition.end_time|date:"M j, Y" }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="org-empty-state">
+  <p class="org-empty-title">Crickets...</p>
+  <p class="org-empty-subtitle"><a href="{% url 'organizer:competition_create' %}">Add your first competition here</a></p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "organizer/base.html" %}
+{% block title %}New Competition{% endblock %}
+{% block content %}
+
+<div class="org-card">
+  <div class="org-card-header">
+    <h1>New Competition</h1>
+  </div>
+  <div class="org-card-body">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="org-form-section">
+        <h3>Basics</h3>
+        <div class="org-form-row">{{ form.name.label_tag }} {{ form.name }}</div>
+        <div class="org-form-row org-form-row-split">
+          <div>{{ form.start_time.label_tag }} {{ form.start_time }}</div>
+          <div>{{ form.end_time.label_tag }} {{ form.end_time }}</div>
+        </div>
+      </div>
+
+      <div class="org-form-section">
+        <h3>Settings</h3>
+        <div class="org-form-row org-form-row-split">
+          <div>{{ form.difficulty.label_tag }} {{ form.difficulty }}</div>
+          <div>{{ form.industry.label_tag }} {{ form.industry }}</div>
+        </div>
+      </div>
+
+      <div class="org-form-section">
+        <h3>Machine Generation</h3>
+        <div class="org-form-row">
+          {{ form.generation_mode.label_tag }} {{ form.generation_mode }}
+        </div>
+
+        <div id="org-random-panel" class="org-form-row">
+          {{ form.random_machine_count.label_tag }} {{ form.random_machine_count }}
+          <p class="org-hint">The engine will pick this many machines at random for the chosen difficulty/industry.</p>
+        </div>
+
+        <div id="org-precise-panel" class="org-form-row" style="display:none;">
+          <p class="org-hint">Pick exact machine counts from the catalog.</p>
+          <table class="org-table">
+            <thead>
+              <tr><th>Machine Template</th><th>OS</th><th>Role</th><th>Quantity</th></tr>
+            </thead>
+            <tbody>
+              {% for template in machine_templates %}
+              <tr>
+                <td>{{ template.name }}</td>
+                <td>{{ template.get_os_family_display }}</td>
+                <td>{{ template.role }}</td>
+                <td><input type="number" min="0" value="0" name="machine_{{ template.id }}" /></td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4">No machine templates in the catalog yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="org-button" type="submit">Create Competition</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var modeField = document.getElementById("id_generation_mode");
+    var randomPanel = document.getElementById("org-random-panel");
+    var precisePanel = document.getElementById("org-precise-panel");
+
+    function sync() {
+      var isPrecise = modeField.value === "precise";
+      randomPanel.style.display = isPrecise ? "none" : "";
+      precisePanel.style.display = isPrecise ? "" : "none";
+    }
+
+    modeField.addEventListener("change", sync);
+    sync();
+  })();
+</script>
+
+{% endblock %}

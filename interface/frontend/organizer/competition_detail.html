@@ -1,0 +1,91 @@
+{% extends "organizer/base.html" %}
+{% block title %}{{ competition.name }}{% endblock %}
+{% block content %}
+
+<div class="org-page-header">
+  <div>
+    <h1>{{ competition.name }}</h1>
+    <div class="org-tile-meta">
+      <span class="org-tile-status org-status-{{ competition.status }}">{{ competition.get_status_display }}</span>
+      <span class="org-chip">{{ competition.get_difficulty_display }}</span>
+      <span class="org-chip">{{ competition.get_industry_display }}</span>
+      <span class="org-chip">{{ competition.get_generation_mode_display }} generation</span>
+    </div>
+  </div>
+</div>
+
+<div class="org-card">
+  <div class="org-card-header"><h2>Overview</h2></div>
+  <div class="org-card-body">
+    <table class="org-kv-table">
+      <tr><th>Starts</th><td>{{ competition.start_time }}</td></tr>
+      <tr><th>Ends</th><td>{{ competition.end_time }}</td></tr>
+      <tr><th>Teams provisioned</th><td>{{ competition.teams.count }}</td></tr>
+      {% if competition.generation_mode == "precise" %}
+      <tr><th>Machines</th>
+        <td>
+          {% for m in competition.machines.all %}{{ m.quantity }}x {{ m.machine_template.name }}{% if not forloop.last %}, {% endif %}{% empty %}None selected{% endfor %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><th>Machines</th><td>~{{ competition.random_machine_count }} (random)</td></tr>
+      {% endif %}
+    </table>
+  </div>
+</div>
+
+{% if competition.status == "live" or competition.status == "completed" %}
+
+<div class="org-tile-grid org-tile-grid-small">
+  <a class="org-tile" href="{% url 'organizer:competition_announcements' competition.pk %}">
+    <h2>Announcements</h2>
+    <p class="org-hint">Post updates to competitors.</p>
+  </a>
+  <a class="org-tile" href="{% url 'organizer:competition_injects' competition.pk %}">
+    <h2>Injects</h2>
+    <p class="org-hint">Create injects and view submission status.</p>
+  </a>
+  <a class="org-tile" href="{% url 'organizer:competition_scoreboard' competition.pk %}">
+    <h2>Scoreboard</h2>
+    <p class="org-hint">View team standings.</p>
+  </a>
+</div>
+
+{% else %}
+
+<div class="org-card">
+  <div class="org-card-header"><h2>Provision Teams</h2></div>
+  <div class="org-card-body">
+    <form method="post" action="{% url 'organizer:competition_provision_teams' competition.pk %}">
+      {% csrf_token %}
+      {{ provision_form.as_p }}
+      <button class="org-button" type="submit">Provision Teams</button>
+    </form>
+  </div>
+</div>
+
+<div class="org-card">
+  <div class="org-card-header"><h2>Infrastructure Provisioning</h2></div>
+  <div class="org-card-body">
+    <p class="org-hint">VM/network provisioning isn't wired up yet — this is a placeholder for the future Proxmox integration.</p>
+    <form method="post" action="{% url 'organizer:competition_provision_infra' competition.pk %}">
+      {% csrf_token %}
+      <button class="org-button org-button-secondary" type="submit">Provision Infrastructure</button>
+    </form>
+  </div>
+</div>
+
+<div class="org-card">
+  <div class="org-card-header"><h2>Go Live</h2></div>
+  <div class="org-card-body">
+    <p class="org-hint">Once teams are provisioned, activate the competition to unlock announcements, injects, and the scoreboard.</p>
+    <form method="post" action="{% url 'organizer:competition_go_live' competition.pk %}">
+      {% csrf_token %}
+      <button class="org-button" type="submit">Go Live</button>
+    </form>
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

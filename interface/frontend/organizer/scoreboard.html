@@ -1,0 +1,26 @@
+{% extends "organizer/base.html" %}
+{% block title %}Scoreboard — {{ competition.name }}{% endblock %}
+{% block content %}
+
+<div class="org-page-header">
+  <h1>Scoreboard &mdash; {{ competition.name }}</h1>
+  <a class="org-button org-button-secondary" href="{% url 'organizer:competition_detail' competition.pk %}">&larr; Back</a>
+</div>
+
+<div class="org-card">
+  <div class="org-card-body">
+    <p class="org-hint">Scoring engine isn't implemented yet — these are placeholder rows, one per provisioned team.</p>
+    <table class="org-table">
+      <thead><tr><th>Team</th><th>Score</th></tr></thead>
+      <tbody>
+        {% for row in rows %}
+        <tr><td>{{ row.team }}</td><td>{{ row.score }}</td></tr>
+        {% empty %}
+        <tr><td colspan="2">No teams provisioned yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

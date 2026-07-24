@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "features.competitions",
     "features.injects",
     "features.network",
+    "features.organizer",
     "features.teams",
 ]
 
@@ -56,6 +57,7 @@ TEMPLATES = [
         'DIRS': [
           PROJECT_ROOT / "interface" / "frontend",
           PROJECT_ROOT / "interface" / "frontend" / "competitor",
+          PROJECT_ROOT / "interface" / "frontend" / "organizer",
         ],
         'APP_DIRS': True,
         'OPTIONS': {

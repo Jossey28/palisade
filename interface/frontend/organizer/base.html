@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Organizer{% endblock %} — Palisade</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'organizer.css' %}" />
+  </head>
+  <body>
+    <nav>
+      <ul class="navbar">
+        <div>
+          <li><a href="{% url 'organizer:competition_list' %}">COMPETITIONS</a></li>
+          <li><a href="{% url 'admin:index' %}">DJANGO ADMIN</a></li>
+        </div>
+        <div>
+          <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+        </div>
+      </ul>
+    </nav>
+
+    <div class="org-feed">
+      {% if messages %}
+      <div class="org-messages">
+        {% for message in messages %}
+        <div class="org-message org-message-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

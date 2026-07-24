@@ -1,0 +1,53 @@
+{% extends "organizer/base.html" %}
+{% block title %}Injects — {{ competition.name }}{% endblock %}
+{% block content %}
+
+<div class="org-page-header">
+  <h1>Injects &mdash; {{ competition.name }}</h1>
+  <a class="org-button org-button-secondary" href="{% url 'organizer:competition_detail' competition.pk %}">&larr; Back</a>
+</div>
+
+<div class="org-card">
+  <div class="org-card-header"><h2>New Inject</h2></div>
+  <div class="org-card-body">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="org-button" type="submit">Create Inject</button>
+    </form>
+  </div>
+</div>
+
+<div class="org-card">
+  <div class="org-card-header"><h2>Submission Status</h2></div>
+  <div class="org-card-body">
+    <div class="org-table-scroll">
+      <table class="org-table">
+        <thead>
+          <tr>
+            <th>Inject</th>
+            <th>Due</th>
+            <th>Points</th>
+            {% for team in teams %}<th>{{ team.name }}</th>{% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>
+            <td>{{ row.inject.title }}</td>
+            <td>{{ row.inject.due_time|date:"m/d H:i" }} UTC</td>
+            <td>{{ row.inject.points }}</td>
+            {% for submitted in row.cells %}
+            <td class="{% if submitted %}org-cell-yes{% else %}org-cell-no{% endif %}">{% if submitted %}&#10003;{% else %}&mdash;{% endif %}</td>
+            {% endfor %}
+          </tr>
+          {% empty %}
+          <tr><td colspan="{{ teams|length|add:3 }}">No injects yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
